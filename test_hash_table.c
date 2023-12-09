@@ -60,24 +60,16 @@ int main()
 
   // 2: Looking up existent node
   for(int i=0; i<100; ++i)
-  {
-    int key = 2 * i;
-    assert(hash_table_lookup(&hash_table, (hash_table_key_t)&key));
-  }
+    assert(hash_table_lookup(&hash_table, HASH_TABLE_KEY(int, 2 *i)));
 
   // 3: Looking up non-existent node
   for(int i=0; i<100; ++i)
-  {
-    int key = 2 * i + 1;
-    assert(!hash_table_lookup(&hash_table, (hash_table_key_t)&key));
-  }
+    assert(!hash_table_lookup(&hash_table, HASH_TABLE_KEY(int, 2 * i + 1)));
 
   // 3: Removing existent node
   for(int i=21; i<47; ++i)
   {
-    int key = 2 * i;
-
-    struct hash_table_node *node = hash_table_remove(&hash_table, (hash_table_key_t)&key);
+    struct hash_table_node *node = hash_table_remove(&hash_table, HASH_TABLE_KEY(int, 2 * i));
     assert(node);
     free(node);
   }
@@ -85,9 +77,7 @@ int main()
   // 4: Removing non-existent node
   for(int i=53; i<87; ++i)
   {
-    int key = 2 * i + 1;
-
-    struct hash_table_node *node = hash_table_remove(&hash_table, (hash_table_key_t)&key);
+    struct hash_table_node *node = hash_table_remove(&hash_table, HASH_TABLE_KEY(int, 2 * i + 1));
     assert(!node);
   }
 

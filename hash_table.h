@@ -33,6 +33,7 @@ struct hash_table_ops
 };
 
 #define HASH_TABLE_INIT(_ops) { .ops = _ops, .buckets = NULL, .bucket_count = 0, .load = 0, }
+#define HASH_TABLE_KEY(type, value) (hash_table_key_t)(&(struct { type _value; }){ ._value = (value) })
 
 void hash_table_rehash(struct hash_table *hash_table, size_t bucket_count);
 
