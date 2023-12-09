@@ -56,7 +56,7 @@ int hash_table_insert(struct hash_table *hash_table, struct hash_table_node *new
 
   struct hash_table_bucket *bucket = &hash_table->buckets[hash % hash_table->bucket_count];
   for(struct hash_table_node *node = bucket->head; node; node = node->next)
-    if(node->hash == hash && hash_table->ops->compare(hash_table->ops->key(node), hash_table->ops->key(new_node)))
+    if(node->hash == hash && hash_table->ops->compare(hash_table->ops->key(node), hash_table->ops->key(new_node)) == 0)
       return 0;
 
   ++hash_table->load;
@@ -74,7 +74,7 @@ struct hash_table_node *hash_table_remove(struct hash_table *hash_table, hash_ta
   struct hash_table_node   *prev   = (struct hash_table_node *)bucket;
   struct hash_table_node   *node   = prev->next;
   for(; node; prev = node, node = node->next)
-    if(node->hash == hash && hash_table->ops->compare(hash_table->ops->key(node), key))
+    if(node->hash == hash && hash_table->ops->compare(hash_table->ops->key(node), key) == 0)
     {
       struct hash_table_node *orphan = node;
       prev->next   = node->next;
@@ -94,7 +94,7 @@ struct hash_table_node *hash_table_lookup(struct hash_table *hash_table, hash_ta
 
   struct hash_table_bucket *bucket = &hash_table->buckets[hash % hash_table->bucket_count];
   for(struct hash_table_node *node = bucket->head; node; node = node->next)
-    if(node->hash == hash && hash_table->ops->compare(hash_table->ops->key(node), key))
+    if(node->hash == hash && hash_table->ops->compare(hash_table->ops->key(node), key) == 0)
       return node;
 
   return NULL;

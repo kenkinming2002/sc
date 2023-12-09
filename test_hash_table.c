@@ -28,7 +28,7 @@ static int item_compare(hash_table_key_t _key1, hash_table_key_t _key2)
 {
   int *key1 = (int *)_key1;
   int *key2 = (int *)_key2;
-  return *key1 == *key2;
+  return *key1 - *key2;
 }
 
 static void item_dispose(struct hash_table_node *node)
