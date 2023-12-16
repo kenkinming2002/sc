@@ -1,3 +1,4 @@
+test_avl_tree
 test_hash_table
 *.o
 *.a
