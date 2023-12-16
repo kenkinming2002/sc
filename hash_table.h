@@ -3,45 +3,45 @@
 
 #include <stddef.h>
 
-struct hash_table_node
+struct sc_hash_table_node
 {
-  struct hash_table_node *next;
+  struct sc_hash_table_node *next;
   size_t                  hash;
 };
 
-struct hash_table_bucket
+struct sc_hash_table_bucket
 {
-  struct hash_table_node *head;
+  struct sc_hash_table_node *head;
 };
 
-struct hash_table
+struct sc_hash_table
 {
-  const struct hash_table_ops *ops;
-  struct hash_table_bucket    *buckets;
+  const struct sc_hash_table_ops *ops;
+  struct sc_hash_table_bucket    *buckets;
   size_t                       bucket_count;
   size_t                       load;
 };
 
-typedef struct hash_table_key *hash_table_key_t;
+typedef struct sc_hash_table_key *sc_hash_table_key_t;
 
-struct hash_table_ops
+struct sc_hash_table_ops
 {
-  hash_table_key_t (*key)(struct hash_table_node *node);
-  size_t(*hash)(hash_table_key_t key);
-  int(*compare)(hash_table_key_t key1, hash_table_key_t key2);
-  void (*dispose)(struct hash_table_node *node);
+  sc_hash_table_key_t (*key)(struct sc_hash_table_node *node);
+  size_t(*hash)(sc_hash_table_key_t key);
+  int(*compare)(sc_hash_table_key_t key1, sc_hash_table_key_t key2);
+  void (*dispose)(struct sc_hash_table_node *node);
 };
 
-#define HASH_TABLE_INIT(_ops) { .ops = _ops, .buckets = NULL, .bucket_count = 0, .load = 0, }
-#define HASH_TABLE_KEY(type, value) (hash_table_key_t)(&(struct { type _value; }){ ._value = (value) })
+#define SC_HASH_TABLE_INIT(_ops) { .ops = _ops, .buckets = NULL, .bucket_count = 0, .load = 0, }
+#define SC_HASH_TABLE_KEY(type, value) (sc_hash_table_key_t)(&(struct { type _value; }){ ._value = (value) })
 
-void hash_table_rehash(struct hash_table *hash_table, size_t bucket_count);
+void sc_hash_table_rehash(struct sc_hash_table *hash_table, size_t bucket_count);
 
-int hash_table_insert(struct hash_table *hash_table, struct hash_table_node *node);
+int sc_hash_table_insert(struct sc_hash_table *hash_table, struct sc_hash_table_node *node);
 
-struct hash_table_node *hash_table_lookup(struct hash_table *hash_table, hash_table_key_t key);
-struct hash_table_node *hash_table_remove(struct hash_table *hash_table, hash_table_key_t key);
+struct sc_hash_table_node *sc_hash_table_lookup(struct sc_hash_table *hash_table, sc_hash_table_key_t key);
+struct sc_hash_table_node *sc_hash_table_remove(struct sc_hash_table *hash_table, sc_hash_table_key_t key);
 
-void hash_table_dispose(struct hash_table *hash_table);
+void sc_hash_table_dispose(struct sc_hash_table *hash_table);
 
 #endif // SC_HASH_TABLE_H
