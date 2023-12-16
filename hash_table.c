@@ -66,6 +66,18 @@ int hash_table_insert(struct hash_table *hash_table, struct hash_table_node *new
   return 1;
 }
 
+struct hash_table_node *hash_table_lookup(struct hash_table *hash_table, hash_table_key_t key)
+{
+  size_t hash = hash_table->ops->hash(key);
+
+  struct hash_table_bucket *bucket = &hash_table->buckets[hash % hash_table->bucket_count];
+  for(struct hash_table_node *node = bucket->head; node; node = node->next)
+    if(node->hash == hash && hash_table->ops->compare(hash_table->ops->key(node), key) == 0)
+      return node;
+
+  return NULL;
+}
+
 struct hash_table_node *hash_table_remove(struct hash_table *hash_table, hash_table_key_t key)
 {
   size_t hash = hash_table->ops->hash(key);
@@ -84,18 +96,6 @@ struct hash_table_node *hash_table_remove(struct hash_table *hash_table, hash_ta
       --hash_table->load;
       return orphan;
     }
-
-  return NULL;
-}
-
-struct hash_table_node *hash_table_lookup(struct hash_table *hash_table, hash_table_key_t key)
-{
-  size_t hash = hash_table->ops->hash(key);
-
-  struct hash_table_bucket *bucket = &hash_table->buckets[hash % hash_table->bucket_count];
-  for(struct hash_table_node *node = bucket->head; node; node = node->next)
-    if(node->hash == hash && hash_table->ops->compare(hash_table->ops->key(node), key) == 0)
-      return node;
 
   return NULL;
 }

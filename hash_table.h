@@ -39,8 +39,8 @@ void hash_table_rehash(struct hash_table *hash_table, size_t bucket_count);
 
 int hash_table_insert(struct hash_table *hash_table, struct hash_table_node *node);
 
-struct hash_table_node *hash_table_remove(struct hash_table *hash_table, hash_table_key_t key);
 struct hash_table_node *hash_table_lookup(struct hash_table *hash_table, hash_table_key_t key);
+struct hash_table_node *hash_table_remove(struct hash_table *hash_table, hash_table_key_t key);
 
 void hash_table_dispose(struct hash_table *hash_table);
 
