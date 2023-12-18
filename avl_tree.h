@@ -7,7 +7,7 @@ struct sc_avl_tree_node
 {
   struct sc_avl_tree_node *left;
   struct sc_avl_tree_node *right;
-  int                   bf; // TODO: Consider tagged pointer
+  int                      bf; // TODO: Consider tagged pointer
 };
 
 struct sc_avl_tree

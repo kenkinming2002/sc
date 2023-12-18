@@ -18,8 +18,8 @@ struct sc_hash_table
 {
   const struct sc_hash_table_ops *ops;
   struct sc_hash_table_bucket    *buckets;
-  size_t                       bucket_count;
-  size_t                       load;
+  size_t                          bucket_count;
+  size_t                          load;
 };
 
 typedef struct sc_hash_table_key *sc_hash_table_key_t;
