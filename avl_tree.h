@@ -24,9 +24,9 @@
 /*********
  * Hooks *
  *********/
-SC_AVL_TREE_KEY_TYPE *SC_AVL_TREE_MAKE_NAME(key)(SC_AVL_TREE_NODE_TYPE *);
-int SC_AVL_TREE_MAKE_NAME(key_compare)(SC_AVL_TREE_KEY_TYPE *, SC_AVL_TREE_KEY_TYPE *);
-void SC_AVL_TREE_MAKE_NAME(dispose)(SC_AVL_TREE_NODE_TYPE *);
+SC_AVL_TREE_KEY_TYPE SC_AVL_TREE_MAKE_NAME(key)(SC_AVL_TREE_NODE_TYPE *node);
+int SC_AVL_TREE_MAKE_NAME(key_compare)(SC_AVL_TREE_KEY_TYPE key1, SC_AVL_TREE_KEY_TYPE key2);
+void SC_AVL_TREE_MAKE_NAME(dispose)(SC_AVL_TREE_NODE_TYPE *node);
 
 /*********
  * Types *
@@ -42,8 +42,8 @@ struct SC_AVL_TREE_MAKE_NAME(avl_tree)
 void SC_AVL_TREE_MAKE_NAME(avl_tree_init)(struct SC_AVL_TREE_MAKE_NAME(avl_tree) *avl_tree);
 void SC_AVL_TREE_MAKE_NAME(avl_tree_check)(struct SC_AVL_TREE_MAKE_NAME(avl_tree) *avl_tree);
 int SC_AVL_TREE_MAKE_NAME(avl_tree_insert)(struct SC_AVL_TREE_MAKE_NAME(avl_tree) *avl_tree, SC_AVL_TREE_NODE_TYPE *node);
-SC_AVL_TREE_NODE_TYPE *SC_AVL_TREE_MAKE_NAME(avl_tree_lookup)(struct SC_AVL_TREE_MAKE_NAME(avl_tree) *avl_tree, SC_AVL_TREE_KEY_TYPE *key);
-SC_AVL_TREE_NODE_TYPE *SC_AVL_TREE_MAKE_NAME(avl_tree_remove)(struct SC_AVL_TREE_MAKE_NAME(avl_tree) *avl_tree, SC_AVL_TREE_KEY_TYPE *key);
+SC_AVL_TREE_NODE_TYPE *SC_AVL_TREE_MAKE_NAME(avl_tree_lookup)(struct SC_AVL_TREE_MAKE_NAME(avl_tree) *avl_tree, SC_AVL_TREE_KEY_TYPE key);
+SC_AVL_TREE_NODE_TYPE *SC_AVL_TREE_MAKE_NAME(avl_tree_remove)(struct SC_AVL_TREE_MAKE_NAME(avl_tree) *avl_tree, SC_AVL_TREE_KEY_TYPE key);
 void SC_AVL_TREE_MAKE_NAME(avl_tree_dispose)(struct SC_AVL_TREE_MAKE_NAME(avl_tree) *avl_tree);
 
 /*******************
@@ -317,7 +317,7 @@ int SC_AVL_TREE_MAKE_NAME(avl_tree_insert)(struct SC_AVL_TREE_MAKE_NAME(avl_tree
   return SC_AVL_TREE_MAKE_NAME_INTERNAL(avl_tree_insert)(avl_tree, &avl_tree->root, node) != SC_AVL_TREE_ERROR;
 }
 
-static SC_AVL_TREE_NODE_TYPE *SC_AVL_TREE_MAKE_NAME_INTERNAL(avl_tree_lookup)(struct SC_AVL_TREE_MAKE_NAME(avl_tree) *avl_tree, SC_AVL_TREE_NODE_TYPE *node, SC_AVL_TREE_KEY_TYPE *key)
+static SC_AVL_TREE_NODE_TYPE *SC_AVL_TREE_MAKE_NAME_INTERNAL(avl_tree_lookup)(struct SC_AVL_TREE_MAKE_NAME(avl_tree) *avl_tree, SC_AVL_TREE_NODE_TYPE *node, SC_AVL_TREE_KEY_TYPE key)
 {
   if(!node)
     return NULL;
@@ -331,7 +331,7 @@ static SC_AVL_TREE_NODE_TYPE *SC_AVL_TREE_MAKE_NAME_INTERNAL(avl_tree_lookup)(st
     return node;
 }
 
-SC_AVL_TREE_NODE_TYPE *SC_AVL_TREE_MAKE_NAME(avl_tree_lookup)(struct SC_AVL_TREE_MAKE_NAME(avl_tree) *avl_tree, SC_AVL_TREE_KEY_TYPE *key)
+SC_AVL_TREE_NODE_TYPE *SC_AVL_TREE_MAKE_NAME(avl_tree_lookup)(struct SC_AVL_TREE_MAKE_NAME(avl_tree) *avl_tree, SC_AVL_TREE_KEY_TYPE key)
 {
   return SC_AVL_TREE_MAKE_NAME_INTERNAL(avl_tree_lookup)(avl_tree, avl_tree->root, key);
 }
@@ -389,7 +389,7 @@ static int SC_AVL_TREE_MAKE_NAME_INTERNAL(avl_tree_remove_node)(struct SC_AVL_TR
 }
 
 // Return change in tree height at root or SC_AVL_TREE_ERROR on error
-static int SC_AVL_TREE_MAKE_NAME_INTERNAL(avl_tree_remove)(struct SC_AVL_TREE_MAKE_NAME(avl_tree) *avl_tree, SC_AVL_TREE_NODE_TYPE **root, SC_AVL_TREE_NODE_TYPE **node, SC_AVL_TREE_KEY_TYPE *key)
+static int SC_AVL_TREE_MAKE_NAME_INTERNAL(avl_tree_remove)(struct SC_AVL_TREE_MAKE_NAME(avl_tree) *avl_tree, SC_AVL_TREE_NODE_TYPE **root, SC_AVL_TREE_NODE_TYPE **node, SC_AVL_TREE_KEY_TYPE key)
 {
   if(!(*root))
     return SC_AVL_TREE_ERROR;
@@ -419,7 +419,7 @@ static int SC_AVL_TREE_MAKE_NAME_INTERNAL(avl_tree_remove)(struct SC_AVL_TREE_MA
   return change_height + SC_AVL_TREE_MAKE_NAME_INTERNAL(avl_tree_update_bf)(avl_tree, root);
 }
 
-SC_AVL_TREE_NODE_TYPE *SC_AVL_TREE_MAKE_NAME(avl_tree_remove)(struct SC_AVL_TREE_MAKE_NAME(avl_tree) *avl_tree, SC_AVL_TREE_KEY_TYPE *key)
+SC_AVL_TREE_NODE_TYPE *SC_AVL_TREE_MAKE_NAME(avl_tree_remove)(struct SC_AVL_TREE_MAKE_NAME(avl_tree) *avl_tree, SC_AVL_TREE_KEY_TYPE key)
 {
   SC_AVL_TREE_NODE_TYPE *node = NULL;
   SC_AVL_TREE_MAKE_NAME_INTERNAL(avl_tree_remove)(avl_tree, &avl_tree->root, &node, key);

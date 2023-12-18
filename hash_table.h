@@ -25,9 +25,9 @@
 /*********
  * Hooks *
  *********/
-SC_HASH_TABLE_KEY_TYPE *SC_HASH_TABLE_MAKE_NAME(key)(SC_HASH_TABLE_NODE_TYPE *node);
-size_t SC_HASH_TABLE_MAKE_NAME(hash)(SC_HASH_TABLE_KEY_TYPE *key);
-int SC_HASH_TABLE_MAKE_NAME(compare)(SC_HASH_TABLE_KEY_TYPE *key1, SC_HASH_TABLE_KEY_TYPE *key2);
+SC_HASH_TABLE_KEY_TYPE SC_HASH_TABLE_MAKE_NAME(key)(SC_HASH_TABLE_NODE_TYPE *node);
+size_t SC_HASH_TABLE_MAKE_NAME(hash)(SC_HASH_TABLE_KEY_TYPE key);
+int SC_HASH_TABLE_MAKE_NAME(compare)(SC_HASH_TABLE_KEY_TYPE key1, SC_HASH_TABLE_KEY_TYPE key2);
 void SC_HASH_TABLE_MAKE_NAME(dispose)(SC_HASH_TABLE_NODE_TYPE *node);
 
 /*********
@@ -51,8 +51,8 @@ struct SC_HASH_TABLE_MAKE_NAME(hash_table)
 void SC_HASH_TABLE_MAKE_NAME(hash_table_init)(struct SC_HASH_TABLE_MAKE_NAME(hash_table) *hash_table);
 void SC_HASH_TABLE_MAKE_NAME(hash_table_rehash)(struct SC_HASH_TABLE_MAKE_NAME(hash_table) *hash_table, size_t bucket_count);
 int SC_HASH_TABLE_MAKE_NAME(hash_table_insert)(struct SC_HASH_TABLE_MAKE_NAME(hash_table) *hash_table, SC_HASH_TABLE_NODE_TYPE *node);
-SC_HASH_TABLE_NODE_TYPE *SC_HASH_TABLE_MAKE_NAME(hash_table_lookup)(struct SC_HASH_TABLE_MAKE_NAME(hash_table) *hash_table, SC_HASH_TABLE_KEY_TYPE *key);
-SC_HASH_TABLE_NODE_TYPE *SC_HASH_TABLE_MAKE_NAME(hash_table_remove)(struct SC_HASH_TABLE_MAKE_NAME(hash_table) *hash_table, SC_HASH_TABLE_KEY_TYPE *key);
+SC_HASH_TABLE_NODE_TYPE *SC_HASH_TABLE_MAKE_NAME(hash_table_lookup)(struct SC_HASH_TABLE_MAKE_NAME(hash_table) *hash_table, SC_HASH_TABLE_KEY_TYPE key);
+SC_HASH_TABLE_NODE_TYPE *SC_HASH_TABLE_MAKE_NAME(hash_table_remove)(struct SC_HASH_TABLE_MAKE_NAME(hash_table) *hash_table, SC_HASH_TABLE_KEY_TYPE key);
 void SC_HASH_TABLE_MAKE_NAME(hash_table_dispose)(struct SC_HASH_TABLE_MAKE_NAME(hash_table) *hash_table);
 
 /*******************
@@ -133,7 +133,7 @@ int SC_HASH_TABLE_MAKE_NAME(hash_table_insert)(struct SC_HASH_TABLE_MAKE_NAME(ha
   return 1;
 }
 
-SC_HASH_TABLE_NODE_TYPE *SC_HASH_TABLE_MAKE_NAME(hash_table_lookup)(struct SC_HASH_TABLE_MAKE_NAME(hash_table) *hash_table, SC_HASH_TABLE_KEY_TYPE *key)
+SC_HASH_TABLE_NODE_TYPE *SC_HASH_TABLE_MAKE_NAME(hash_table_lookup)(struct SC_HASH_TABLE_MAKE_NAME(hash_table) *hash_table, SC_HASH_TABLE_KEY_TYPE key)
 {
   size_t hash = SC_HASH_TABLE_MAKE_NAME(hash)(key);
 
@@ -145,7 +145,7 @@ SC_HASH_TABLE_NODE_TYPE *SC_HASH_TABLE_MAKE_NAME(hash_table_lookup)(struct SC_HA
   return NULL;
 }
 
-SC_HASH_TABLE_NODE_TYPE *SC_HASH_TABLE_MAKE_NAME(hash_table_remove)(struct SC_HASH_TABLE_MAKE_NAME(hash_table) *hash_table, SC_HASH_TABLE_KEY_TYPE *key)
+SC_HASH_TABLE_NODE_TYPE *SC_HASH_TABLE_MAKE_NAME(hash_table_remove)(struct SC_HASH_TABLE_MAKE_NAME(hash_table) *hash_table, SC_HASH_TABLE_KEY_TYPE key)
 {
   size_t hash = SC_HASH_TABLE_MAKE_NAME(hash)(key);
 
