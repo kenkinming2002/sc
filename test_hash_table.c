@@ -10,25 +10,10 @@ struct item
   int value;
 };
 
-static int item_key(struct item *item)
-{
-  return item->key;
-}
-
-static size_t item_hash(int key)
-{
-  return key;
-}
-
-static int item_compare(int key1, int key2)
-{
-  return key1 - key2;
-}
-
-static void item_dispose(struct item *item)
-{
-  free(item);
-}
+static int item_key(struct item *item) { return item->key; }
+static size_t item_hash(int key) { return key; }
+static int item_compare(int key1, int key2) { return key1 - key2; }
+static void item_dispose(struct item *item) { free(item); }
 
 #define SC_HASH_TABLE_PREFIX    item
 #define SC_HASH_TABLE_NODE_TYPE struct item

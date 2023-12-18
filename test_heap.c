@@ -6,15 +6,8 @@ struct item
   unsigned value;
 };
 
-int item_compare(struct item *item1, struct item *item2)
-{
-  return item1->value < item2->value;
-}
-
-void item_update(struct item *item, size_t index)
-{
-  item->index = index;
-}
+int item_compare(struct item *item1, struct item *item2) { return item1->value < item2->value; }
+void item_update(struct item *item, size_t index) { item->index = index; }
 
 #define SC_HEAP_PREFIX item
 #define SC_HEAP_TYPE   struct item
