@@ -2,4 +2,4 @@ test_avl_tree
 test_hash_table
 test_heap
 *.o
-*.a
+*.d

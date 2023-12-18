@@ -1,3 +1,5 @@
+CFLAGS += -MMD
+
 .PHONY: test clean
 all:
 
@@ -19,3 +21,7 @@ test_hash_table: test_hash_table.o
 
 test_heap: test_heap.o
 	$(CC) -o $@ test_heap.o $(CFLAGS) $(LDFLAGS)
+
+-include test_avl_tree.d
+-include test_hash_table.d
+-include test_heap.d
