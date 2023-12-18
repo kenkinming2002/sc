@@ -1,7 +1,4 @@
-#include "heap.h"
-
-#include <assert.h>
-#include <stdlib.h>
+#include <stddef.h>
 
 struct item
 {
@@ -9,25 +6,25 @@ struct item
   unsigned value;
 };
 
-int item_compare(void *_item1, void *_item2)
+int item_compare(struct item *item1, struct item *item2)
 {
-  struct item *item1 = _item1;
-  struct item *item2 = _item2;
   return item1->value < item2->value;
 }
 
-void item_update(void *_item, size_t index)
+void item_update(struct item *item, size_t index)
 {
-  struct item *item = _item;
   item->index = index;
 }
 
-struct sc_heap_ops ITEM_OPS = {
-  .compare = &item_compare,
-  .update  = &item_update,
-};
+#define SC_HEAP_PREFIX item
+#define SC_HEAP_TYPE   struct item
+#define SC_HEAP_IMPLEMENTATION
+#include "heap.h"
 
-void check_item_heap(struct sc_heap *heap)
+#include <assert.h>
+#include <stdlib.h>
+
+void check_item_heap(struct item_heap *heap)
 {
   for(size_t i=0; i<heap->item_count; ++i)
   {
@@ -38,48 +35,44 @@ void check_item_heap(struct sc_heap *heap)
 
 int main()
 {
-  // 1: Push/Pop
-  {
-    struct sc_heap heap = SC_HEAP_INIT(&ITEM_OPS);
-    for(unsigned i=63; i<64; --i)
-    {
-      struct item *item = malloc(sizeof *item);
-      item->value = i;
-      sc_heap_push(&heap, item);
-      check_item_heap(&heap);
-    }
+  struct item_heap heap;
 
-    for(unsigned i=0; i<64; ++i)
-    {
-      struct item *item = sc_heap_pop(&heap);
-      assert(item->value == i);
-      free(item);
-      check_item_heap(&heap);
-    }
-    sc_heap_dispose(&heap);
+  // 1: Push/Pop
+  item_heap_init(&heap);
+  for(unsigned i=63; i<64; --i)
+  {
+    struct item *item = malloc(sizeof *item);
+    item->value = i;
+    item_heap_push(&heap, item);
+    check_item_heap(&heap);
   }
+  for(unsigned i=0; i<64; ++i)
+  {
+    struct item *item = item_heap_pop(&heap);
+    assert(item->value == i);
+    free(item);
+    check_item_heap(&heap);
+  }
+  item_heap_dispose(&heap);
 
   // 2: Build
+  item_heap_init(&heap);
+  for(unsigned i=63; i<64; --i)
   {
-    struct sc_heap heap = SC_HEAP_INIT(&ITEM_OPS);
-    for(unsigned i=63; i<64; --i)
-    {
-      struct item *item = malloc(sizeof *item);
-      item->value = i;
-      sc_heap_build_push(&heap, item);
-      check_item_heap(&heap);
-    }
-    sc_heap_build_end(&heap);
+    struct item *item = malloc(sizeof *item);
+    item->value = i;
+    item_heap_build_push(&heap, item);
     check_item_heap(&heap);
-
-    for(unsigned i=0; i<64; ++i)
-    {
-      struct item *item = sc_heap_pop(&heap);
-      assert(item->value == i);
-      free(item);
-      check_item_heap(&heap);
-    }
-    sc_heap_dispose(&heap);
   }
+  item_heap_build_end(&heap);
+  check_item_heap(&heap);
+  for(unsigned i=0; i<64; ++i)
+  {
+    struct item *item = item_heap_pop(&heap);
+    assert(item->value == i);
+    free(item);
+    check_item_heap(&heap);
+  }
+  item_heap_dispose(&heap);
 }
 
