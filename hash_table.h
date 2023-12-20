@@ -1,13 +1,12 @@
 // Before including this header, the following should be defined:
-//  - SC_AVL_TREE_PREFIX
-//  - SC_AVL_TREE_NODE_TYPE
-//  - SC_AVL_TREE_KEY_TYPE
+//  - SC_HASH_TABLE_PREFIX
+//  - SC_HASH_TABLE_NODE_TYPE
+//  - SC_HASH_TABLE_KEY_TYPE
 //
-// SC_AVL_TREE_NODE_TYPE:
+// SC_HASH_TABLE_NODE_TYPE:
 //   must at minimal have the same fields as the following struct:
-//    - struct SC_AVL_TREE_NODE_TYPE *left
-//    - struct SC_AVL_TREE_NODE_TYPE *right
-//    - int                           bf
+//    - struct SC_HASH_TABLE_NODE_TYPE *next
+//    - size_t                          hash
 #include <stddef.h>
 
 /*****************
